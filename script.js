@@ -26,6 +26,7 @@ document.addEventListener("DOMContentLoaded", () => {
   }
 
   function showAddItem() {
+    console.log("Add Item clicked");
     itemList.classList.add('hidden');
     addItemPage.classList.remove('hidden');
     viewItemPage.classList.add('hidden');
@@ -39,10 +40,12 @@ document.addEventListener("DOMContentLoaded", () => {
     addItemPage.classList.add('hidden');
     viewItemPage.classList.remove('hidden');
 
+    // ✅ Show QR code with item.id
     const qrContainer = document.getElementById('viewQrCode');
     qrContainer.innerHTML = '';
     QRCode.toCanvas(item.id, function (error, canvas) {
-      if (!error) qrContainer.appendChild(canvas);
+      if (error) console.error(error);
+      else qrContainer.appendChild(canvas);
     });
   }
 
@@ -82,11 +85,13 @@ document.addEventListener("DOMContentLoaded", () => {
     }
   });
 
+  // Initial load
   renderItems();
   itemList.classList.remove('hidden');
   addItemPage.classList.add('hidden');
   viewItemPage.classList.add('hidden');
 
+  // Make inline functions work
   window.showAddItem = showAddItem;
   window.goBack = goBack;
 });
@@ -117,7 +122,17 @@ document.getElementById('qrUpload').addEventListener('change', function (e) {
         const match = items.find(item => item.id === scannedId);
 
         if (match) {
-          viewItem(match);
+          document.getElementById('viewName').textContent = match.name;
+          document.getElementById('viewImage').src = match.img;
+          const qrContainer = document.getElementById('viewQrCode');
+          qrContainer.innerHTML = '';
+          QRCode.toCanvas(match.id, function (error, canvas) {
+            if (!error) qrContainer.appendChild(canvas);
+          });
+
+          document.getElementById('itemList').classList.add('hidden');
+          document.getElementById('addItemPage').classList.add('hidden');
+          document.getElementById('viewItemPage').classList.remove('hidden');
         } else {
           alert('QR code does not match any saved items.');
         }
@@ -129,57 +144,3 @@ document.getElementById('qrUpload').addEventListener('change', function (e) {
 
   reader.readAsDataURL(file);
 });
-
-
-// ✅ Live QR Scanner (Camera)
-let videoStream;
-let scanInterval;
-
-window.scanQr = () => {
-  const modal = document.getElementById('qrScannerModal');
-  const video = document.getElementById('qrVideo');
-  modal.classList.remove('hidden');
-
-  navigator.mediaDevices.getUserMedia({ video: { facingMode: 'environment' } })
-    .then(stream => {
-      videoStream = stream;
-      video.srcObject = stream;
-      video.setAttribute('playsinline', true); // Required for iOS Safari
-      video.play();
-
-      scanInterval = setInterval(() => {
-        if (video.readyState === video.HAVE_ENOUGH_DATA) {
-          const canvas = document.createElement('canvas');
-          canvas.width = video.videoWidth;
-          canvas.height = video.videoHeight;
-          const ctx = canvas.getContext('2d');
-          ctx.drawImage(video, 0, 0, canvas.width, canvas.height);
-          const imageData = ctx.getImageData(0, 0, canvas.width, canvas.height);
-          const code = jsQR(imageData.data, canvas.width, canvas.height);
-
-          if (code) {
-            const id = code.data.trim();
-            const items = JSON.parse(localStorage.getItem('items') || '[]');
-            const match = items.find(item => item.id === id);
-
-            if (match) {
-              stopScan();
-              viewItem(match);
-            }
-          }
-        }
-      }, 500);
-    })
-    .catch(err => {
-      alert('Unable to access camera: ' + err);
-      stopScan();
-    });
-};
-
-window.stopScan = () => {
-  clearInterval(scanInterval);
-  if (videoStream) {
-    videoStream.getTracks().forEach(track => track.stop());
-  }
-  document.getElementById('qrScannerModal').classList.add('hidden');
-};
