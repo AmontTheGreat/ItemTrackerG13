@@ -1,0 +1,59 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Item Tracker</title>
+  <link rel="stylesheet" href="style.css" />
+</head>
+<body>
+  <header>
+    <h1>Item Tracker</h1>
+    <button onclick="showAddItem()">+ Add Item</button>
+  </header>
+
+  <section id="searchBar">
+    <input type="text" placeholder="Search Items" />
+    <button>📷 Scan QR</button>
+    <button>Upload QR</button>
+  </section>
+
+  <!-- 🔹 Main Item List Page -->
+  <section id="itemList">
+    <!-- Item cards will appear here -->
+  </section>
+
+  <!-- 🔹 Add Item Page -->
+  <section id="addItemPage" class="hidden">
+    <h2>Add Item</h2>
+    <form id="itemForm">
+      <input type="text" id="itemName" placeholder="Enter Item Name" required />
+      <input type="file" id="itemImage" accept="image/*" required />
+      <button type="submit">Save</button>
+    </form>
+    <button onclick="goBack()">← Back</button>
+  </section>
+
+  <!-- 🔹 View Item Page -->
+  <section id="viewItemPage" class="hidden">
+    <h2>View Item</h2>
+    <p><strong>Item Name:</strong> <span id="viewName"></span></p>
+    <p><strong>Item Image:</strong></p>
+    <img id="viewImage" />
+
+    <p><strong>QR Code:</strong></p>
+    <div id="viewQrCode"></div>
+
+    <div>
+      <button>Edit</button>
+      <button>Delete</button>
+    </div>
+    <button onclick="goBack()">← Back</button>
+  </section>
+
+  <!-- QR Code Library -->
+  <script src="https://cdn.jsdelivr.net/npm/qrcode/build/qrcode.min.js"></script>
+  <!-- Your script -->
+  <script src="script.js"></script>
+</body>
+</html>

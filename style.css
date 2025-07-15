@@ -1,0 +1,43 @@
+body {
+  font-family: sans-serif;
+  padding: 20px;
+  max-width: 600px;
+  margin: auto;
+}
+
+header {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+}
+
+section {
+  margin-top: 20px;
+}
+
+.itemCard {
+  display: flex;
+  align-items: center;
+  gap: 10px;
+  margin-bottom: 10px;
+  border: 1px solid #ccc;
+  padding: 8px;
+  cursor: pointer;
+}
+
+.itemCard img {
+  width: 50px;
+  height: 50px;
+  object-fit: cover;
+}
+
+img {
+  max-width: 100%;
+  height: auto;
+  display: block;
+  margin: 10px 0;
+}
+
+.hidden {
+  display: none;
+}
