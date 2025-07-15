@@ -132,3 +132,35 @@ img {
     align-items: flex-start;
   }
 }
+
+#qrScannerModal {
+  position: fixed;
+  top: 0;
+  left: 0;
+  width: 100%;
+  height: 100%;
+  background: rgba(0,0,0,0.8);
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  z-index: 9999;
+}
+
+#qrScannerModal video {
+  max-width: 90%;
+  max-height: 70vh;
+  border: 4px solid white;
+  border-radius: 8px;
+  margin-bottom: 20px;
+}
+
+#qrScannerModal button {
+  background: red;
+  color: white;
+  padding: 10px 20px;
+  border: none;
+  border-radius: 6px;
+  font-size: 16px;
+  cursor: pointer;
+}

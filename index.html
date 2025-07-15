@@ -5,8 +5,9 @@
   <meta name="viewport" content="width=device-width, initial-scale=1.0" />
   <title>Item Tracker</title>
   <link rel="stylesheet" href="style.css" />
-  <!-- ✅ Add jsQR to read QR codes from uploaded images -->
-  <script src="https://cdn.jsdelivr.net/npm/jsqr@1.4.0/dist/jsQR.js"></script>
+
+  <!-- ✅ QR Code Scanner (jsQR) -->
+  <script src="https://cdn.jsdelivr.net/npm/jsqr@1.4.0/dist/jsQR.min.js"></script>
 </head>
 <body>
   <header>
@@ -16,7 +17,7 @@
 
   <section id="searchBar">
     <input type="text" placeholder="Search Items" />
-    <button>📷 Scan QR</button>
+    <button onclick="scanQr()">📷 Scan QR</button>
     <button onclick="document.getElementById('qrUpload').click()">Upload QR</button>
     <input type="file" id="qrUpload" accept="image/*" class="hidden" />
   </section>
@@ -54,9 +55,15 @@
     <button onclick="goBack()">← Back</button>
   </section>
 
-  <!-- QR Code Generator -->
+  <!-- 🔹 QR Scanner Modal -->
+  <div id="qrScannerModal" class="hidden">
+    <video id="qrVideo" autoplay></video>
+    <button onclick="stopScan()">❌ Cancel</button>
+  </div>
+
+  <!-- ✅ QR Code Generator -->
   <script src="https://cdn.jsdelivr.net/npm/qrcode/build/qrcode.min.js"></script>
-  <!-- Your script -->
+  <!-- ✅ Your main logic -->
   <script src="script.js"></script>
 </body>
 </html>
