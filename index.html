@@ -5,7 +5,6 @@
   <meta name="viewport" content="width=device-width, initial-scale=1.0" />
   <title>Item Tracker</title>
   <link rel="stylesheet" href="style.css" />
-  <!-- ✅ Add jsQR to read QR codes from uploaded images -->
   <script src="https://cdn.jsdelivr.net/npm/jsqr@1.4.0/dist/jsQR.js"></script>
 </head>
 <body>
@@ -15,18 +14,15 @@
   </header>
 
   <section id="searchBar">
-    <input type="text" placeholder="Search Items" />
+    <input type="text" id="searchInput" placeholder="Search Items" />
+    <button class="searchBtn">🔍 Search</button>
     <button>📷 Scan QR</button>
     <button onclick="document.getElementById('qrUpload').click()">Upload QR</button>
     <input type="file" id="qrUpload" accept="image/*" class="hidden" />
   </section>
 
-  <!-- 🔹 Main Item List Page -->
-  <section id="itemList">
-    <!-- Item cards will appear here -->
-  </section>
+  <section id="itemList"></section>
 
-  <!-- 🔹 Add Item Page -->
   <section id="addItemPage" class="hidden">
     <h2>Add Item</h2>
     <form id="itemForm">
@@ -37,16 +33,13 @@
     <button onclick="goBack()">← Back</button>
   </section>
 
-  <!-- 🔹 View Item Page -->
   <section id="viewItemPage" class="hidden">
     <h2>View Item</h2>
     <p><strong>Item Name:</strong> <span id="viewName"></span></p>
     <p><strong>Item Image:</strong></p>
     <img id="viewImage" />
-
     <p><strong>QR Code:</strong></p>
     <div id="viewQrCode"></div>
-
     <div>
       <button>Edit</button>
       <button>Delete</button>
@@ -54,9 +47,7 @@
     <button onclick="goBack()">← Back</button>
   </section>
 
-  <!-- QR Code Generator -->
   <script src="https://cdn.jsdelivr.net/npm/qrcode/build/qrcode.min.js"></script>
-  <!-- Your script -->
   <script src="script.js"></script>
 </body>
 </html>

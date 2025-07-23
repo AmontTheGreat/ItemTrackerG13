@@ -3,6 +3,8 @@ document.addEventListener("DOMContentLoaded", () => {
   const itemList = document.getElementById('itemList');
   const addItemPage = document.getElementById('addItemPage');
   const viewItemPage = document.getElementById('viewItemPage');
+  const searchBtn = document.querySelector('.searchBtn');
+  const searchInput = document.getElementById('searchInput');
 
   const items = JSON.parse(localStorage.getItem('items') || '[]');
 
@@ -26,7 +28,6 @@ document.addEventListener("DOMContentLoaded", () => {
   }
 
   function showAddItem() {
-    console.log("Add Item clicked");
     itemList.classList.add('hidden');
     addItemPage.classList.remove('hidden');
     viewItemPage.classList.add('hidden');
@@ -36,17 +37,16 @@ document.addEventListener("DOMContentLoaded", () => {
     document.getElementById('viewName').textContent = item.name;
     document.getElementById('viewImage').src = item.img;
 
-    itemList.classList.add('hidden');
-    addItemPage.classList.add('hidden');
-    viewItemPage.classList.remove('hidden');
-
-    // ✅ Show QR code with item.id
     const qrContainer = document.getElementById('viewQrCode');
     qrContainer.innerHTML = '';
     QRCode.toCanvas(item.id, function (error, canvas) {
       if (error) console.error(error);
       else qrContainer.appendChild(canvas);
     });
+
+    itemList.classList.add('hidden');
+    addItemPage.classList.add('hidden');
+    viewItemPage.classList.remove('hidden');
   }
 
   function goBack() {
@@ -85,17 +85,29 @@ document.addEventListener("DOMContentLoaded", () => {
     }
   });
 
-  // Initial load
+  // 🔍 Search item by name
+  searchBtn.addEventListener('click', () => {
+    const query = searchInput.value.trim().toLowerCase();
+    if (!query) return;
+
+    const match = items.find(item => item.name.toLowerCase() === query);
+    if (match) {
+      viewItem(match);
+    } else {
+      alert("No item found with that name.");
+    }
+  });
+
   renderItems();
   itemList.classList.remove('hidden');
   addItemPage.classList.add('hidden');
   viewItemPage.classList.add('hidden');
 
-  // Make inline functions work
   window.showAddItem = showAddItem;
   window.goBack = goBack;
 });
 
+// 📸 Upload QR and match by ID
 document.getElementById('qrUpload').addEventListener('change', function (e) {
   const file = e.target.files[0];
   if (!file) return;

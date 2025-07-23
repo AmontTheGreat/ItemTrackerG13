@@ -116,7 +116,7 @@ img {
   display: none;
 }
 
-/* ✅ Mobile Responsive */
+/*  Mobile Responsive */
 @media (max-width: 600px) {
   header {
     flex-direction: column;
